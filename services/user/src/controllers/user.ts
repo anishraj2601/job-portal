@@ -193,3 +193,31 @@ export const addSkillToUser = TryCatch(
     });
   }
 );
+
+export const deleteSkillFromUser = TryCatch(
+  async (req: AuthenticatedRequest, res) => {
+    const user = req.user;
+
+    if (!user) {
+      throw new ErrorHandler(401, "Authentication Required");
+    }
+
+    const { skillName } = req.body;
+
+    if (!skillName || skillName.trim() === "") {
+      throw new ErrorHandler(400, "Please provide a skill name");
+    }
+
+    const result = await sql`DELETE FROM user_skills WHERE user_id = ${
+      user.user_id
+    } AND skill_id = (SELECT skill_id FROM skills WHERE name = ${skillName.trim()}) RETURNING user_id;`;
+
+    if (result.length === 0) {
+      throw new ErrorHandler(404, `Skill ${skillName.trim()} was not found`);
+    }
+
+    res.json({
+      message: `Skill ${skillName.trim()} was deleted successfully`,
+    });
+  }
+);
