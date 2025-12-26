@@ -67,7 +67,7 @@ async function initDB() {
     `;
 
     console.log(
-      "Job service database tables checked and created successfully."
+      "✅ Job service database tables checked and created successfully."
     );
   } catch (error) {
     console.log("Error while creating tables", error);
