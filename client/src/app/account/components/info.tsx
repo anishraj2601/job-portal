@@ -351,7 +351,7 @@ const Info: React.FC<AccountProps> = ({ user, isYourAccount }) => {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-125">
           <DialogHeader>
             <DialogTitle className="text-2xl">Edit profile</DialogTitle>
           </DialogHeader>
