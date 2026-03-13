@@ -125,6 +125,10 @@
   }
 }
 
+.icon-style {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 opacity-50;
+}
+
 /* @layer base {
   * {
     @apply border-border outline-ring/50;

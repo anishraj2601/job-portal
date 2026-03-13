@@ -10,11 +10,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { CareerGuideResponse, utils_service } from "@/type";
+import { CareerGuideResponse } from "@/type";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { utils_service } from "@/context/AppContext";
+import toast from "react-hot-toast";
 
 const CareerGuide = () => {
   const [open, setOpen] = useState(false);
@@ -42,7 +44,7 @@ const CareerGuide = () => {
 
   const getCareerGuidance = async () => {
     if (skills.length === 0) {
-      alert("Please add at least on skill");
+      toast.error("Please add at least on skill");
       return;
     }
     setLoading(true);
@@ -52,10 +54,10 @@ const CareerGuide = () => {
       });
 
       setResponse(data);
-      alert("Career guidance generated");
+      toast.success("Career guidance generated");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
