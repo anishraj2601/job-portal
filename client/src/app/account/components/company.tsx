@@ -189,7 +189,7 @@ const Company = () => {
                         {c.description}
                       </p>
                       <a
-                        href={c.website}
+                        href={c.website.startsWith("http") ? c.website : `https://${c.website}`}
                         target="_blank"
                         className="text-xs text-blue-500 hover:underline flex items-center gap-1"
                       >
