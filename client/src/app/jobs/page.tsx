@@ -177,7 +177,7 @@ const JobsPage = () => {
                 <Input
                   id="title"
                   type="text"
-                  placeholder="Enter company name"
+                  placeholder="Software Developer"
                   className="h-11"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}

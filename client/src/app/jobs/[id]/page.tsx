@@ -98,21 +98,21 @@ const JobPage = () => {
   const [statusValues, setStatusValues] = useState<Record<number, string>>({});
 
   const updateApplicationHandler = async (id: number) => {
-  const status = statusValues[id];
-  if (!status) return toast.error("Please give valid value");
+    const status = statusValues[id];
+    if (!status) return toast.error("Please give valid value");
 
-  try {
-    const { data } = await axios.put(
-      `${job_service}/api/job/application/update/${id}`,
-      { status },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    toast.success(data.message);
-    fetchJobApplications();
-  } catch (error: any) {
-    toast.error(error.response.data.message);
-  }
-};
+    try {
+      const { data } = await axios.put(
+        `${job_service}/api/job/application/update/${id}`,
+        { status },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      toast.success(data.message);
+      fetchJobApplications();
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div className="min-h-screen bg-secondary/30">
       {loading ? (
@@ -150,7 +150,12 @@ const JobPage = () => {
                       </h1>
                       <div className="flex items-center gap-2 text-base opacity-70 mb-2 text-white">
                         <Building2 size={18} />
-                        <span>Company Name</span>
+                        <Link
+                          href={`/company/${job.company_id}`}
+                          className="hover:underline"
+                        >
+                          {job.company_name}
+                        </Link>
                       </div>
                     </div>
 

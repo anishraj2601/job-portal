@@ -18,7 +18,7 @@ export const createCompany = TryCatch(
     if (user.role !== "recruiter") {
       throw new ErrorHandler(
         403,
-        "Forbidden: Only recruiter can create a company"
+        "Forbidden: Only recruiter can create a company",
       );
     }
 
@@ -34,7 +34,7 @@ export const createCompany = TryCatch(
     if (existingCompanies.length > 0) {
       throw new ErrorHandler(
         409,
-        `A company with the name ${name} already exists`
+        `A company with the name ${name} already exists`,
       );
     }
 
@@ -52,7 +52,7 @@ export const createCompany = TryCatch(
 
     const { data } = await axios.post(
       `${process.env.UPLOAD_SERVICE}/api/utils/upload`,
-      { buffer: fileBuffer.content }
+      { buffer: fileBuffer.content },
     );
 
     const [newCompany] =
@@ -62,7 +62,7 @@ export const createCompany = TryCatch(
       message: "Company created successfully",
       company: newCompany,
     });
-  }
+  },
 );
 
 export const deleteCompany = TryCatch(
@@ -77,7 +77,7 @@ export const deleteCompany = TryCatch(
     if (!company) {
       throw new ErrorHandler(
         404,
-        "Company not found or you're not authorized to delete it."
+        "Company not found or you're not authorized to delete it.",
       );
     }
 
@@ -86,7 +86,7 @@ export const deleteCompany = TryCatch(
     res.json({
       message: "Company and all associated jobs have been deleted",
     });
-  }
+  },
 );
 
 export const createJob = TryCatch(async (req: AuthenticatedRequest, res) => {
@@ -99,7 +99,7 @@ export const createJob = TryCatch(async (req: AuthenticatedRequest, res) => {
   if (user.role !== "recruiter") {
     throw new ErrorHandler(
       403,
-      "Forbidden: Only recruiter can create a company"
+      "Forbidden: Only recruiter can create a company",
     );
   }
 
@@ -145,7 +145,7 @@ export const updateJob = TryCatch(async (req: AuthenticatedRequest, res) => {
   if (user.role !== "recruiter") {
     throw new ErrorHandler(
       403,
-      "Forbidden: Only recruiter can create a company"
+      "Forbidden: Only recruiter can create a company",
     );
   }
 
@@ -197,7 +197,7 @@ export const getAllCompany = TryCatch(
       await sql`SELECT * FROM companies WHERE recruiter_id = ${req.user?.user_id}`;
 
     res.json(companies);
-  }
+  },
 );
 
 export const getCompanyDetails = TryCatch(
@@ -221,7 +221,7 @@ export const getCompanyDetails = TryCatch(
     }
 
     res.json(companyData);
-  }
+  },
 );
 
 export const getAllActiveJobs = TryCatch(async (req, res) => {
@@ -256,8 +256,15 @@ export const getAllActiveJobs = TryCatch(async (req, res) => {
 });
 
 export const getSingleJob = TryCatch(async (req, res) => {
-  const [job] =
-    await sql`SELECT * FROM jobs WHERE job_id = ${req.params.jobId}`;
+  // const [job] =
+  //   await sql`SELECT * FROM jobs WHERE job_id = ${req.params.jobId}`;
+
+  const [job] = await sql`
+    SELECT jobs.*, companies.name AS company_name
+    FROM jobs
+    JOIN companies ON jobs.company_id = companies.company_id
+    WHERE job_id = ${req.params.jobId}
+  `;
 
   res.json(job);
 });
@@ -292,7 +299,7 @@ export const getAllApplicationForJob = TryCatch(
       await sql`SELECT * FROM applications WHERE job_id = ${jobId} ORDER BY subscribed DESC, applied_at ASC`;
 
     res.json(applications);
-  }
+  },
 );
 
 export const updateApplication = TryCatch(
@@ -345,5 +352,5 @@ export const updateApplication = TryCatch(
       job,
       updatedApplication,
     });
-  }
+  },
 );
