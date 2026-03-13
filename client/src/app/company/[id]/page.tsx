@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -24,7 +25,6 @@ import {
   MapPin,
   Pencil,
   Plus,
-  Trash2,
   Users,
   XCircle,
 } from "lucide-react";
@@ -52,7 +52,7 @@ const CompanyPage = () => {
   const { id } = useParams();
   const token = Cookies.get("token");
 
-  const { user, isAuth } = useAppData();
+  const { user } = useAppData();
   const [loading, setLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [company, setCompany] = useState<Company | null>(null);
@@ -80,7 +80,6 @@ const CompanyPage = () => {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
   const addModalRef = useRef<HTMLButtonElement>(null);
-  const updateModalRef = useRef<HTMLButtonElement>(null);
 
   const [title, settitle] = useState("");
   const [description, setdescription] = useState("");
@@ -137,25 +136,25 @@ const CompanyPage = () => {
     }
   };
 
-  const deleteHandler = async (jobId: number) => {
-    if (confirm("Are you sure you want to delete this job?")) {
-      setBtnLoading(true);
-      try {
-        await axios.delete(`${job_service}/api/job/${jobId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+//   const deleteHandler = async (jobId: number) => {
+//     if (confirm("Are you sure you want to delete this job?")) {
+//       setBtnLoading(true);
+//       try {
+//         await axios.delete(`${job_service}/api/job/${jobId}`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
 
-        toast.success("Job has been deleted");
-        fetchCompany();
-      } catch (error: any) {
-        toast.error(error.response.data.message);
-      } finally {
-        setBtnLoading(false);
-      }
-    }
-  };
+//         toast.success("Job has been deleted");
+//         fetchCompany();
+//       } catch (error: any) {
+//         toast.error(error.response.data.message);
+//       } finally {
+//         setBtnLoading(false);
+//       }
+//     }
+//   };
 
   const handleOpenUpdateModal = (job: Job) => {
     setSelectedJob(job);
@@ -280,7 +279,7 @@ const CompanyPage = () => {
                     </Button>
                   </DialogTrigger>
 
-                  <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                  <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                       <DialogTitle className="text-2xl flex items-center gap-2">
                         Post a new Job
@@ -528,7 +527,8 @@ const CompanyPage = () => {
                                 size={"sm"}
                                 className="gap-2"
                               >
-                                <Eye size={16} /> View
+                                <Eye size={16} />
+                                <span className="hidden sm:inline">View</span>
                               </Button>
                             </Link>
 
@@ -541,7 +541,7 @@ const CompanyPage = () => {
                                   className="gap-2"
                                 >
                                   <Pencil size={16} />
-                                  Edit
+                                  <span className="hidden sm:inline">Edit</span>
                                 </Button>
                               </>
                             )}
@@ -570,7 +570,7 @@ const CompanyPage = () => {
             open={isUpdatedModalOpen}
             onOpenChange={setIsUpdatedModalOpen}
           >
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-2xl flex items-center gap-2">
                   Update Job
