@@ -1,11 +1,10 @@
 "use client";
-import { Card } from "@/components/ui/card";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Application } from "@/type";
 import {
   Briefcase,
   CheckCircle2,
   Clock,
-  DollarSign,
   Eye,
   XCircle,
 } from "lucide-react";
@@ -45,16 +44,19 @@ const AppliedJobs: React.FC<AppliedJobsProps> = ({ applications }) => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
       <Card className="shadow-lg border-2 overflow-hidden">
-        <div className="bg-blue-600 text-white p-6 border-b">
+        <div className="bg-blue-500 text-white p-6 border-b">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
               <Briefcase size={20} className="text-blue-600" />
             </div>
+            <CardTitle className="text-2xl text-white">
+              Your Applied Jobs
+            </CardTitle>
+
+            <CardDescription className="text-sm mt-1 text-white">
+              {applications.length} applications submitted
+            </CardDescription>
           </div>
-          <h1 className="text-2xl font-bold">Your Applied Jobs</h1>
-          <p className="text-sm font-bold">
-            {applications.length} applications submitted
-          </p>
         </div>
 
         <div className="p-6">
@@ -78,7 +80,7 @@ const AppliedJobs: React.FC<AppliedJobsProps> = ({ applications }) => {
                         <div className="flex flex-wrap gap-4 items-center">
                           <div className="flex items-center gap-2 text-sm">
                             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600">
-                              <DollarSign size={14} />
+                              {/* <DollarSign size={14} /> */}
                               <span className="font-medium">
                                 ₹ {a.job_salary}
                               </span>
