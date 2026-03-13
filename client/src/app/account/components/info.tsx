@@ -14,21 +14,16 @@ import { Label } from "@/components/ui/label";
 import { useAppData } from "@/context/AppContext";
 import { AccountProps } from "@/type";
 import {
-  AlertTriangle,
   Briefcase,
   Camera,
-  CheckCircle2,
-  Crown,
   Edit,
   FileText,
   Mail,
   NotepadText,
   Phone,
-  RefreshCcw,
   UserIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useRef, useState } from "react";
 
 const Info: React.FC<AccountProps> = ({ user, isYourAccount }) => {
@@ -39,8 +34,6 @@ const Info: React.FC<AccountProps> = ({ user, isYourAccount }) => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [bio, setBio] = useState("");
-  // eslint-disable-next-line react-hooks/purity
-  const now = Date.now();
 
   const { updateProfilePic, updateResume, btnLoading, updateUser } =
     useAppData();
@@ -86,8 +79,6 @@ const Info: React.FC<AccountProps> = ({ user, isYourAccount }) => {
       updateResume(formData);
     }
   };
-
-  const router = useRouter();
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -235,110 +226,6 @@ const Info: React.FC<AccountProps> = ({ user, isYourAccount }) => {
                 />
               </div>
             </div>
-          )}
-
-          {/* subscription section */}
-          {isYourAccount && (
-            <>
-              {user.role === "jobseeker" && (
-                <div className="mt-8">
-                  <h2 className="text-lg font-semibold mt-4 flex items-center gap-2">
-                    <Crown size={20} className="text-blue-600" />
-                    Subscription Status
-                  </h2>
-
-                  <div className="p-6 rounded-lg bg-linear-to-br from-blue-50  dark:from-blue-900/20 to-purple-950/20 ">
-                    {!user.subscription ? (
-                      <>
-                        <div className="flex items-center justify-between flex-wrap gap-4">
-                          <div>
-                            <p className="font-semibold text-lg mb-1">
-                              No Active Subscription
-                            </p>
-                            <p className="text-sm opacity-70">
-                              Subscribe to unlock premium features and benefits
-                            </p>
-                          </div>
-                          <Button
-                            className="gap-2"
-                            onClick={() => router.push("/subscribe")}
-                          >
-                            <Crown size={18} />
-                            Subscribe Now
-                          </Button>
-                        </div>
-                      </>
-                    ) : new Date(user.subscription).getTime() > now ? (
-                      <div className="flex items-center justify-between flex-wrap gap-4">
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <CheckCircle2
-                              size={20}
-                              className="text-green-600"
-                            />
-                            <p className="font-semibold text-lg text-green-600">
-                              Active Subscription
-                            </p>
-                          </div>
-                          <p className="text-sm opacity-70">
-                            Valid until:{" "}
-                            {new Date(user.subscription).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-700 text-white font-medium">
-                          <CheckCircle2 size={18} />
-                          Subcribed
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="flex items-center justify-between flex-wrap gap-4">
-                          <div>
-                            <div className="flex items-center gap-2 mb-2">
-                              <AlertTriangle
-                                size={20}
-                                className="text-red-600"
-                              />
-                              <p className="font-semibold text-lg text-red-600">
-                                Subscription Expired
-                              </p>
-                            </div>
-
-                            <p className="text-sm opacity-70">
-                              Expired On:{" "}
-                              {new Date(user.subscription).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                }
-                              )}
-                            </p>
-                          </div>
-
-                          <Button
-                            variant={"destructive"}
-                            className="gap-2"
-                            onClick={() => router.push("/subscribe")}
-                          >
-                            <RefreshCcw size={18} />
-                            Renew Subscription
-                          </Button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              )}
-            </>
           )}
         </div>
       </Card>
