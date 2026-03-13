@@ -133,6 +133,7 @@ const Company = () => {
 
   useEffect(() => {
     fetchCompanies();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;
@@ -310,6 +311,7 @@ const Company = () => {
                 htmlFor="logo"
                 className="text-sm font-medium flex items-center gap-2"
               >
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image size={16} /> CompanyLogo
               </Label>
               <Input
